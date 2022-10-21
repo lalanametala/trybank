@@ -22,9 +22,17 @@ public class Trybank
 
     public void RegisterAccount(int number, int agency, int pass)
     {
-        for(int i = 0; i < maxAccounts; i++)
+        try
         {
-            if(Bank[i,0] == number && Bank[i,1] == agency ) throw new ArgumentException("A conta já está sendo usada!");
+            for(int i = 0; i < maxAccounts; i++)
+            {
+                if(Bank[i,0] == number && Bank[i,1] == agency ) throw new ArgumentException("A conta já está sendo usada!");
+            }
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw ex;
         }
 
         Bank[registeredAccounts, 0] = number;

@@ -42,9 +42,35 @@ public class Trybank
         registeredAccounts++;
     }
 
+    public bool IsAccountValid(int line, int number, int agency)
+    {
+        return Bank[line, 0] == number && Bank[line, 1] == agency;
+    }
+
+    public bool IsPasswordValid(int line, int pass)
+    {
+        return Bank[line, 2] == pass;
+    }
+
     public void Login(int number, int agency, int pass)
     {
-        throw new NotImplementedException();
+        if(Logged) throw new AccessViolationException("Usuário já está logado");
+        for(int i = 0; i < maxAccounts; i++)
+        {
+            if(IsAccountValid(i, number, agency))
+            {
+                if(IsPasswordValid(i, pass))
+                {
+                    Logged = true;
+                    loggedUser = i;
+                    break;
+                }
+                else {
+                    throw new ArgumentException("Senha incorreta");
+                }
+            }
+        }
+        if(!Logged) throw new ArgumentException("Agência + Conta não encontrada");
     }
 
     public void Logout()

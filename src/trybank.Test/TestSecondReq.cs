@@ -39,10 +39,12 @@ public class TestSecondReq
     }
 
     [Theory(DisplayName = "Deve retornar exceção ao digitar conta que não existe")]
-    [InlineData(0, 0, 0)]
+    [InlineData(7, 8, 9)]
     public void TestLoginExceptionNotFounded(int number, int agency, int pass)
     {        
-        throw new NotImplementedException();
+        Trybank instance = new();
+        Action act = () => instance.Login(number, agency, pass);
+        act.Should().Throw<ArgumentException>().WithMessage("Agência + Conta não encontrada");
     }
 
     [Theory(DisplayName = "Deve sair de uma conta!")]

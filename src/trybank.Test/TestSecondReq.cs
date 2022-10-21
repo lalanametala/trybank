@@ -34,7 +34,7 @@ public class TestSecondReq
     {        
         Trybank instance = new();
         instance.RegisterAccount(number, agency, pass);
-        Action act = () => instance.Login(number, agency, agency);
+        Action act = () => instance.Login(number, agency, pass + 1);
         act.Should().Throw<ArgumentException>().WithMessage("Senha incorreta");
     }
 
@@ -51,14 +51,24 @@ public class TestSecondReq
     [InlineData(0, 0, 0)]
     public void TestLogoutSucess(int number, int agency, int pass)
     {        
-        throw new NotImplementedException();
+        Trybank instance = new() {
+            Logged = true,
+            loggedUser = 1
+        };
+        instance.Logged.Should().BeTrue();
+        instance.loggedUser.Should().Be(1);
+        instance.Logout();
+        instance.Logged.Should().BeFalse();
+        instance.loggedUser.Should().Be(-99);
     }
 
     [Theory(DisplayName = "Deve retornar exceção ao sair quando não está logado")]
     [InlineData(0, 0, 0)]
     public void TestLogoutExceptionNotLogged(int number, int agency, int pass)
     {        
-        throw new NotImplementedException();
+        Trybank instance = new();
+        Action act = () => instance.Logout();
+        act.Should().Throw<AccessViolationException>().WithMessage("Usuário não está logado");
     }
 
 }

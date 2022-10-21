@@ -29,10 +29,13 @@ public class TestSecondReq
     }
 
     [Theory(DisplayName = "Deve retornar exceção ao errar a senha")]
-    [InlineData(0, 0, 0)]
+    [InlineData(7, 8, 9)]
     public void TestLoginExceptionWrongPass(int number, int agency, int pass)
     {        
-        throw new NotImplementedException();
+        Trybank instance = new();
+        instance.RegisterAccount(number, agency, pass);
+        Action act = () => instance.Login(number, agency, agency);
+        act.Should().Throw<ArgumentException>().WithMessage("Senha incorreta");
     }
 
     [Theory(DisplayName = "Deve retornar exceção ao digitar conta que não existe")]

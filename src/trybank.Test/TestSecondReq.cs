@@ -21,7 +21,11 @@ public class TestSecondReq
     [InlineData(0, 0, 0)]
     public void TestLoginExceptionLogged(int number, int agency, int pass)
     {        
-        throw new NotImplementedException();
+        Trybank instance = new() {
+            Logged = true
+        };
+        Action act = () => instance.Login(number, agency, pass);
+        act.Should().Throw<AccessViolationException>().WithMessage("Usuário já está logado");
     }
 
     [Theory(DisplayName = "Deve retornar exceção ao errar a senha")]

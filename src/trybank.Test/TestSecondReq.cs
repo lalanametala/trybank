@@ -8,10 +8,13 @@ namespace trybank.Test;
 public class TestSecondReq
 {
     [Theory(DisplayName = "Deve logar em uma conta!")]
-    [InlineData(0, 0, 0)]
+    [InlineData(7, 8, 9)]
     public void TestLoginSucess(int number, int agency, int pass)
     {        
-        throw new NotImplementedException();
+        Trybank instance = new();
+        instance.RegisterAccount(number, agency, pass);
+        instance.Login(number, agency, pass);
+        instance.Logged.Should().BeTrue();
     }
 
     [Theory(DisplayName = "Deve retornar exceção ao tentar logar em conta já logada")]

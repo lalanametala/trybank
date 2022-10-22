@@ -73,9 +73,14 @@ public class Trybank
         if(!Logged) throw new ArgumentException("Agência + Conta não encontrada");
     }
 
-    public void Logout()
+    public void IsUserLogged()
     {
         if(!Logged) throw new AccessViolationException("Usuário não está logado");
+    }
+
+    public void Logout()
+    {
+        IsUserLogged();
 
         Logged = false;
         loggedUser = -99;
@@ -83,7 +88,7 @@ public class Trybank
 
     public int CheckBalance()
     {
-        if(!Logged) throw new AccessViolationException("Usuário não está logado");
+        IsUserLogged();
 
         return Bank[loggedUser, 3];  
     }
@@ -95,18 +100,18 @@ public class Trybank
 
     public void Deposit(int value)
     {
-        if(!Logged) throw new AccessViolationException("Usuário não está logado");
+        IsUserLogged();
         Bank[loggedUser, 3] += value;
     }
 
     public void Withdraw(int value)
     {
-        if(!Logged) throw new AccessViolationException("Usuário não está logado");
+        IsUserLogged();
 
         int newBalance = Bank[loggedUser, 3] - value;
 
         if (newBalance < 0) throw new InvalidOperationException("Saldo insuficiente");
-        
+
         Bank[loggedUser, 3] = newBalance;
     }
 }

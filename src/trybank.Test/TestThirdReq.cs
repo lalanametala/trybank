@@ -11,7 +11,11 @@ public class TestThirdReq
     [InlineData(0)]
     public void TestCheckBalanceSucess(int balance)
     {        
-        throw new NotImplementedException();
+        Trybank instance = new() {
+            Logged = true,
+            loggedUser = 0,            
+        };
+        instance.CheckBalance().Should().Be(balance);
     }
 
     [Theory(DisplayName = "Deve lançar uma exceção de usuário não logado")]

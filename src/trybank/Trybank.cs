@@ -83,7 +83,9 @@ public class Trybank
 
     public int CheckBalance()
     {
-        throw new NotImplementedException();   
+        if(!Logged) throw new AccessViolationException("Usuário não está logado");
+
+        return Bank[loggedUser, 3];  
     }
 
     public void Transfer(int destinationNumber, int destinationAgency, int value)

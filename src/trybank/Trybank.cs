@@ -95,8 +95,21 @@ public class Trybank
 
     public void Transfer(int destinationNumber, int destinationAgency, int value)
     {
-        throw new NotImplementedException();
-    }
+        IsUserLogged();
+
+        int newBalance = Bank[loggedUser, 3] - value;
+
+        if (newBalance < 0) throw new InvalidOperationException("Saldo insuficiente");
+
+        for(int i = 0; i < maxAccounts; i++)
+        {
+            if(Bank[i,0] == destinationNumber && Bank[i,1] == destinationAgency) 
+            {
+                Bank[i,3] += value;
+                Bank[loggedUser, 3] = newBalance;
+            }
+        }
+}
 
     public void Deposit(int value)
     {

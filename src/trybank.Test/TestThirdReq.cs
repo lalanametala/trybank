@@ -13,8 +13,9 @@ public class TestThirdReq
     {        
         Trybank instance = new() {
             Logged = true,
-            loggedUser = 0,            
+            loggedUser = 0,
         };
+        instance.Bank[0,3] = balance;            
         instance.CheckBalance().Should().Be(balance);
     }
 

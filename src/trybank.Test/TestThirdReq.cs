@@ -29,17 +29,25 @@ public class TestThirdReq
     }
 
     [Theory(DisplayName = "Deve depositar um saldo em uma conta logada")]
-    [InlineData(0)]
+    [InlineData(10)]
     public void TestDepositSucess(int value)
     {        
-        throw new NotImplementedException();
+        Trybank instance = new() {
+            Logged = true,
+            loggedUser = 0,
+        };
+        instance.Bank[0,3] = 10;
+        instance.Deposit(value);
+        instance.CheckBalance().Should().Be(value + 10);
     }
 
     [Theory(DisplayName = "Deve lançar uma exceção de usuário não logado")]
     [InlineData(0)]
     public void TestDepositWithoutLogin(int value)
     {        
-        throw new NotImplementedException();
+        Trybank instance = new();
+        Action act = () => instance.Deposit(value);
+        act.Should().Throw<AccessViolationException>().WithMessage("Usuário não está logado");
     }
 
     [Theory(DisplayName = "Deve sacar um valor em uma conta logada")]

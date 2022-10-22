@@ -51,23 +51,37 @@ public class TestThirdReq
     }
 
     [Theory(DisplayName = "Deve sacar um valor em uma conta logada")]
-    [InlineData(0, 0)]
+    [InlineData(10, 1)]
     public void TestWithdrawSucess(int balance, int value)
     {        
-        throw new NotImplementedException();
+        Trybank instance = new() {
+            Logged = true,
+            loggedUser = 0,
+        };
+        instance.Bank[0,3] = balance;
+        instance.Withdraw(value);
+        instance.CheckBalance().Should().Be(balance - value);
     }
 
     [Theory(DisplayName = "Deve lançar uma exceção de usuário não logado")]
     [InlineData(0)]
     public void TestWithdrawWithoutLogin(int value)
     {        
-        throw new NotImplementedException();
+        Trybank instance = new();
+        Action act = () => instance.Withdraw(value);
+        act.Should().Throw<AccessViolationException>().WithMessage("Usuário não está logado");
     }
 
     [Theory(DisplayName = "Deve lançar uma exceção de usuário não logado")]
-    [InlineData(0, 0)]
+    [InlineData(10, 20)]
     public void TestWithdrawWithoutBalance(int balance, int value)
     {        
-        throw new NotImplementedException();
+         Trybank instance = new() {
+            Logged = true,
+            loggedUser = 0,
+        };
+        instance.Bank[0,3] = balance;
+        Action act = () => instance.Withdraw(value);
+        act.Should().Throw<InvalidOperationException>().WithMessage("Saldo insuficiente");
     }
 }

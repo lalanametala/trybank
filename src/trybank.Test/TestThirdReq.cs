@@ -76,7 +76,7 @@ public class TestThirdReq
     [InlineData(10, 20)]
     public void TestWithdrawWithoutBalance(int balance, int value)
     {        
-         Trybank instance = new() {
+        Trybank instance = new() {
             Logged = true,
             loggedUser = 0,
         };
